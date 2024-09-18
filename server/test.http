@@ -1,0 +1,19 @@
+### POST USer
+POST http://localhost:3000/api/auth/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "User",
+    "email": "agent@gmail.com",
+    "password": "admin123",
+    "role": "agent"
+}
+
+### login
+POST http://localhost:3000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "admin1234"
+}
