@@ -8,11 +8,16 @@ const app = express()
 const port = 3000
 
 // Middleware
+app.use(cors({
+    origin: ["http://localhost:5173"],
+    methods: ['GET', 'POST', 'PUT', "DELETE"],
+    credentials: true
+}))
 app.use(express.json())
-app.use(cors())
 
 // Routes
 app.use('/api/auth', userRoute)
+app.use('/api/users', userRoute)
 
 // Connect to db
 connectDB(process.env.MONGO_URI)

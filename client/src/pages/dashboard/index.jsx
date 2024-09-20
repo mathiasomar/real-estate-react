@@ -1,13 +1,21 @@
 import { Button, Flex, Layout } from "antd";
 import { useState } from "react";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../../components/Sidebar";
+import HeaderProfile from "../../components/HeaderProfile";
+import { useAuth } from "../../context/AuthContext";
 import { Outlet } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
+
+  const { userData, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+  };
   return (
     <Layout>
       <Sider
@@ -34,10 +42,11 @@ const Dashboard = () => {
                 ></Button>
               </div>
             </Flex>
+            <HeaderProfile handleLogout={handleLogout} />
           </Flex>
         </Header>
         <Content className="body-content">
-            <Outlet />
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

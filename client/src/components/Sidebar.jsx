@@ -1,12 +1,11 @@
 import { HiOutlineUsers } from "react-icons/hi";
 import { Flex, Menu } from "antd";
 import logo from "../assets/fav.png";
-import { DashboardOutlined, PoweroffOutlined } from "@ant-design/icons";
+import { DashboardOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <>
@@ -20,12 +19,8 @@ const Sidebar = () => {
         mode="inline"
         theme="dark"
         className="menu-bar"
-        onClick={({key}) => {
-            if (key === '/signout') {
-                // Sign out
-            } else {
-                navigate(key)
-            }
+        onClick={({ key }) => {
+          navigate(key);
         }}
         items={[
           {
@@ -39,12 +34,27 @@ const Sidebar = () => {
             icon: <HiOutlineUsers />,
             children: [
               {
-                key: "/agents",
+                key: "/dashboard/agents",
                 label: "View Agents",
               },
               {
-                key: "/add-agent",
+                key: "/dashboard/add-agent",
                 label: "Add Agent",
+              },
+            ],
+          },
+          {
+            key: "22",
+            label: "Admin",
+            icon: <UserOutlined />,
+            children: [
+              {
+                key: "/dashboard/admins",
+                label: "View Admins",
+              },
+              {
+                key: "/dashboard/add-admin",
+                label: "Add Admin",
               },
             ],
           },
@@ -54,25 +64,25 @@ const Sidebar = () => {
             icon: <HiOutlineUsers />,
             children: [
               {
-                key: "/categories",
+                key: "/dashboard/categories",
                 label: "Category",
               },
               {
-                key: "/properties",
+                key: "/dashboard/properties",
                 label: "View Properties",
               },
               {
-                key: "/add-property",
+                key: "/dashboard/add-property",
                 label: "Add Property",
               },
             ],
           },
-          {
-            key: "/signout",
-            icon: <PoweroffOutlined />,
-            label: "Logout",
-            danger: true
-          },
+          // {
+          //   key: "/signout",
+          //   icon: <PoweroffOutlined />,
+          //   label: "Logout",
+          //   danger: true
+          // },
         ]}
       ></Menu>
     </>

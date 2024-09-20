@@ -1,9 +1,5 @@
 const AddAgent = () => {
-  return (
-    <div>
-      AddAgent
-    </div>
-  )
-}
+  return <div>AddAgent</div>;
+};
 
-export default AddAgent
+export default AddAgent;

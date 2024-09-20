@@ -1,9 +1,5 @@
 const AgentList = () => {
-  return (
-    <div>
-      Agent List
-    </div>
-  )
-}
+  return <div>Agent List</div>;
+};
 
-export default AgentList
+export default AgentList;
