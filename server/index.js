@@ -3,6 +3,7 @@ require('dotenv').config()
 const cors = require('cors')
 const connectDB = require('./db')
 const userRoute = require('./routes/userRoute')
+const adminRoute = require('./routes/adminRoute')
 
 const app = express()
 const port = 3000
@@ -17,7 +18,7 @@ app.use(express.json())
 
 // Routes
 app.use('/api/auth', userRoute)
-app.use('/api/users', userRoute)
+app.use('/api/users', adminRoute)
 
 // Connect to db
 connectDB(process.env.MONGO_URI)

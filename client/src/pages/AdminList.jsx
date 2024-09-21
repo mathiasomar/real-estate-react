@@ -1,33 +1,43 @@
-import { Table } from "antd";
+import { Alert, Button, message, Popconfirm, Space, Table } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import ContentHeader from "../components/ContentHeader";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../context/authContext";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAdmins } from "../api/admins";
 
 const AdminList = () => {
-    const [loading, setLoading] = useState(false);
-    const [dataSource, setDataSource] = useState([]);
+  const { token } = useAuth();
 
-    useEffect(() => {
-        setLoading(true)
-        const fetchUsers = async () => {
-            try {
-                const res = await axios.get('/api/users/admin')
-                setDataSource(res.data)
-                setLoading(false)
-            } catch (error) {
-                console.log(error)
-            }
-        }
+  axios.defaults.headers.common["Authorization"] = token;
 
-        fetchUsers()
-    }, []);
+  const {
+    isLoading,
+    isError,
+    data: admins,
+    error,
+  } = useQuery({
+    queryKey: ["admins"],
+    queryFn: fetchAdmins,
+    staleTime: 1000,
+    // refetchInterval: 1000
+  });
+
+  if (isError)
+    return (
+      <Alert description={JSON.stringify(error)} icon type="error"></Alert>
+    );
   return (
     <>
       <ContentHeader title="Admin list" descr="List of all admins" />
+      <Link to='/dashboard/add-admin'>
+        <Button type="primary" className="mb-2">New Admin</Button>
+      </Link>
       <Table
         bordered={true}
-        loading={loading}
-
+        loading={isLoading}
         columns={[
           {
             title: "Name",
@@ -52,9 +62,24 @@ const AdminList = () => {
           {
             title: "Action",
             dataIndex: "",
+            key: "x",
+            render: () => (
+              <Space size="middle">
+                <Link>
+                  <Button type="primary">
+                    <EditOutlined />
+                  </Button>
+                </Link>
+                <Popconfirm title="Sure to Delete?" onConfirm={{}}>
+                  <Button danger>
+                    <DeleteOutlined />
+                  </Button>
+                </Popconfirm>
+              </Space>
+            ),
           },
         ]}
-        dataSource={dataSource}
+        dataSource={admins}
       ></Table>
     </>
   );

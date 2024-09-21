@@ -30,21 +30,18 @@ exports.login = async (req, res, next) => {
 
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            return next(new createError("Wrong Email or Password!", 401))
+            return next(new createError("Wrong Credentials!", 401))
         }
 
         const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, {
-            expiresIn: '10d'
+            expiresIn: '1d'
         })
 
-        res.cookie('token', token)
-
-        res.status(200).json({
+        res.cookie('access_token', token, { httpOnly: true }).status(200).json({
             status: "success",
             message: `Success. You are logged in as ${user.role}`,
             token,
             user: {
-                _id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role
@@ -53,11 +50,4 @@ exports.login = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-}
-
-// Get all admins
-exports.users = async (req, res, next) => {
-    const users = User.find()
-        .then(users => res.json(users))
-        .catch(err => res.json(err))
 }

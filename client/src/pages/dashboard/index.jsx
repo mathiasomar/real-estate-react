@@ -11,7 +11,7 @@ const { Header, Content, Sider } = Layout;
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
 
-  const { userData, logout } = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     await logout();

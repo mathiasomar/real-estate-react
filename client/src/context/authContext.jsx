@@ -15,7 +15,7 @@ const AuthContext = ({ children }) => {
       setUserData(user);
       setIsAuthenticated(true);
     }
-  }, [storedData]);
+  }, []);
 
   const login = (newToken, newData) => {
     localStorage.setItem(

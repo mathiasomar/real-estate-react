@@ -1,4 +1,4 @@
-import { Card, Col, Flex, Row, Space, Statistic, Typography } from "antd";
+import { Card, Col, Row, Space, Statistic } from "antd";
 import {
   ShoppingCartOutlined,
   ShoppingOutlined,
@@ -8,11 +8,13 @@ import {
 import RecentOrders from "../components/RecentOrders";
 import Chart from "../components/Chart";
 import ContentHeader from "../components/ContentHeader";
+import { useAuth } from "../context/authContext";
 
 const Home = () => {
+  const { userData } = useAuth();
   return (
     <>
-      <ContentHeader title="Dashboard" descr="Welcome administrator" />
+      <ContentHeader title="Dashboard" descr={`Welcome ${userData.name}`} />
       {/* <Space direction="horizontal">
         <DashboardCard title="Orders" value="12345" />
         <DashboardCard title="Inventory" value="12345" />

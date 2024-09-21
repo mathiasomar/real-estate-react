@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 const useLogin = () => {
   const { login } = useAuth();
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -16,10 +16,7 @@ const useLogin = () => {
       setError(null);
       setLoading(true);
 
-      const res = await axios.post(
-        "/api/auth/login",
-        values
-      );
+      const res = await axios.post("/api/auth/login", values);
 
       // console.log(res)
 
