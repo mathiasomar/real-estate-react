@@ -5,28 +5,29 @@ import { Alert, Button, Card, Flex, Typography } from "antd";
 import { Formik, ErrorMessage } from "formik";
 import { Form, Input } from "formik-antd";
 import * as Yup from "yup";
-
-const initialValues = {
-  name: "",
-  email: "",
-  password: "",
-  passwordConf: "",
-};
-
-const onSubmit = (values, onSubmitProps) => {
-  console.log("Form data", values);
-  console.log("Submit Props", onSubmitProps);
-  onSubmitProps.resetForm();
-};
-
-const validationSchema = Yup.object({
-  name: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email format").required("Required"),
-  password: Yup.string().required("Required"),
-  passwordConf: Yup.string().required("Required"),
-});
+import useAddAdmin from "../hooks/useAddAdmin";
 
 const AddAdmin = () => {
+  const { loading, error, addAdmin } = useAddAdmin();
+
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+    passwordConf: "",
+  };
+
+  const onSubmit = (values) => {
+    addAdmin(values);
+    // onSubmitProps.resetForm();
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email format").required("Required"),
+    password: Yup.string().required("Required"),
+    passwordConf: Yup.string().required("Required"),
+  });
   return (
     <>
       <ContentHeader title="Add New Admin" descr="New Admin" />
@@ -45,7 +46,17 @@ const AddAdmin = () => {
           {(formik) => {
             return (
               <>
-                <Alert type="error" icon description="Error message" closable></Alert>
+                {error ? (
+                  <Alert
+                    type="error"
+                    icon
+                    description={error}
+                    closable
+                  ></Alert>
+                ) : (
+                  ""
+                )}
+
                 <Form>
                   <Flex vertical className="mb-3" gap={4}>
                     <Flex vertical>
@@ -103,6 +114,7 @@ const AddAdmin = () => {
                       type="primary"
                       htmlType="submit"
                       disabled={!formik.isValid}
+                      loading={loading}
                     >
                       Submit
                     </Button>

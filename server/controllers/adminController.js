@@ -10,14 +10,19 @@ exports.admin = async (req, res, next) => {
 }
 
 exports.addAdmin = async (req, res, next) => {
+    const hashedPassword = await bcrypt.hash(req.body.password, 12)
     try {
-        const user = await User.findOne({ email: req.body.email })
-        if (!user) return next(new createError("User already exists!", 404))
+        const checkEmail = await User.findOne({ email: req.body.email })
+        if (checkEmail) return next(new createError("User already exists!", 404))
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 12)
-        await User.create({...req.body, password: hashedPassword})
+        const user = await User.create({ ...req.body, role: "admin", password: hashedPassword })
 
-        res.status(201).json({message: "Admin saved Successfully"})
+        res.status(201).json({
+            message: "Admin saved Successfully",
+            user: {
+                _id: user._id
+            }
+        })
     } catch (error) {
         next(error)
     }

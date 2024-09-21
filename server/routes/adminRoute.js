@@ -5,6 +5,6 @@ const isAuth = require('../middleware/isAuth')
 const router = express.Router()
 
 router.get('/admin', isAuth, adminController.admin)
-router.post('/admin', isAuth, adminController.addAdmin)
+router.post('/add-admin', isAuth, adminController.addAdmin)
 
 module.exports = router
